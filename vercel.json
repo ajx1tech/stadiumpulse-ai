@@ -1,0 +1,4 @@
+{
+  "_comment": "Vercel auto-detects Next.js and builds automatically. This file is intentionally minimal to confirm no conflicting header rules with next.config.ts.",
+  "headers": []
+}

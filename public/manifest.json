@@ -1,0 +1,16 @@
+{
+  "name": "StadiumPulse AI",
+  "short_name": "StadiumPulse",
+  "description": "GenAI operations copilot for FIFA World Cup 2026 stadiums",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "16x16 32x32 64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}

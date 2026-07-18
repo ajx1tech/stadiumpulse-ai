@@ -1,0 +1,48 @@
+{
+  "name": "stadiumpulse-ai",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "lint:strict": "eslint . --max-warnings=0",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@radix-ui/react-dialog": "^1.1.19",
+    "@radix-ui/react-progress": "^1.1.12",
+    "@radix-ui/react-slider": "^1.4.3",
+    "@radix-ui/react-tabs": "^1.1.17",
+    "@radix-ui/react-toggle-group": "^1.1.15",
+    "@types/dompurify": "^3.0.5",
+    "dompurify": "^3.4.12",
+    "firebase": "^12.16.0",
+    "framer-motion": "^12.42.2",
+    "next": "16.2.10",
+    "react": "19.2.4",
+    "react-circular-progressbar": "^2.2.0",
+    "react-dom": "19.2.4",
+    "recharts": "^3.9.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.10",
+    "jest": "^30.4.2",
+    "jest-environment-jsdom": "^30.4.1",
+    "prettier": "^3.9.5",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

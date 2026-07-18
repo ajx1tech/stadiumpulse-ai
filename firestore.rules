@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Telemetry data can be read by anyone, but only written by authorized staff
+    match /telemetry/{document=**} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.token.role == 'admin';
+    }
+    // Incidents can be read by staff, and written by authenticated personnel
+    match /incidents/{document=**} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null;
+    }
+  }
+}
