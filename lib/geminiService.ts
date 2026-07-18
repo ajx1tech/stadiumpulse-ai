@@ -13,11 +13,11 @@ let lastApiCallTime = 0
 /**
  * Enforces an 800ms rate limit between API calls.
  */
-async function enforceRateLimit(): Promise<void> {
+function checkRateLimit(): void {
   const now = Date.now()
   const timeSinceLastCall = now - lastApiCallTime
   if (timeSinceLastCall < 800) {
-    await new Promise((resolve) => setTimeout(resolve, 800 - timeSinceLastCall))
+    throw new Error('RateLimitExceeded')
   }
   lastApiCallTime = Date.now()
 }
@@ -43,7 +43,7 @@ export async function askStadiumAssistant(
       return 'Please ask a valid question.'
     }
 
-    await enforceRateLimit()
+    checkRateLimit()
 
     const model: GenerativeModel = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
 
@@ -64,7 +64,10 @@ ${JSON.stringify(realTimeContext, null, 2)}
     ])
 
     return result.response.text()
-  } catch (error) {
+  } catch (error: any) {
+    if (error.message === 'RateLimitExceeded') {
+      return "I'm processing too many requests. Please wait a moment."
+    }
     console.error('Gemini API Error:', error)
     return 'The stadium assistant encountered an error while processing your request. Please try again later.'
   }
