@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import PersonaSelector, { Persona } from '@/components/PersonaSelector'
 
 // Organizer Persona
@@ -15,7 +15,7 @@ import StaffAlertsPanel from '@/components/staff/StaffAlertsPanel'
 // Fan Persona Components
 import StadiumMapView from '@/components/fan/StadiumMapView'
 import FanAIChat from '@/components/fan/FanAIChat'
-import TransportPanel from '@/components/fan/TransportPanel'
+import SustainableTransportPanel from '@/components/fan/SustainableTransportPanel'
 import EmergencySOSButton from '@/components/fan/EmergencySOSButton'
 
 export default function Home() {
@@ -58,7 +58,7 @@ export default function Home() {
       */}
       <header className="bg-slate-900 border-b border-slate-700 py-4 px-6 flex justify-between items-center shadow-md sticky top-0 z-40">
         <div className="flex items-center">
-          <h1 className="text-2xl font-extrabold text-emerald-400">StadiumPulse AI</h1>
+          <h1 className="text-2xl font-extrabold text-emerald-400">StadiumPulse AI - FIFA World Cup 2026</h1>
           <span className="ml-4 px-2 py-1 bg-slate-800 text-xs text-slate-300 font-mono rounded border border-slate-600 uppercase tracking-widest">
             {activePersona} MODE | {language.toUpperCase()}
           </span>
@@ -104,7 +104,7 @@ export default function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2 space-y-6">
                 <StadiumMapView telemetryData={mockTelemetry} />
-                <TransportPanel />
+                <SustainableTransportPanel />
               </div>
               <div>
                 <FanAIChat />

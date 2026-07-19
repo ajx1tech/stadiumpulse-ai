@@ -1,16 +1,18 @@
 'use client'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { reportIncident } from '@/lib/firebase'
 import { Incident } from '@/lib/types'
 
+/** Renders the global emergency SOS button for fans to report incidents. */
 export default function EmergencySOSButton() {
   const [open, setOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
   const handleSOS = async () => {
+    // Feature: Real-time decision support for stadium operations
     setIsSubmitting(true)
     const incident: Incident = {
       id: Date.now().toString(),

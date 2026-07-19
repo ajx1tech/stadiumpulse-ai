@@ -1,5 +1,5 @@
 import { findShortestRoute } from '../lib/pathfinding'
-import { STADIUM_NODES, STADIUM_EDGES } from '../lib/stadiumGraph'
+import { STADIUM_EDGES } from '../lib/stadiumGraph'
 
 describe('Pathfinding Engine', () => {
   it('should find a valid path between gate-a and sec-101 without wheelchair constraints', () => {
@@ -13,7 +13,6 @@ describe('Pathfinding Engine', () => {
 
   it('should successfully route wheelchair users avoiding stairs', () => {
     // We know from stadiumGraph that gate-b to conc-1 has stairs
-    const routeStandard = findShortestRoute('gate-b', 'sec-102', false)
     const routeAccessible = findShortestRoute('gate-b', 'sec-102', true)
     
     // Gate B to Sec 102 accessible path might not exist or might take a longer route

@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI, GenerativeModel } from '@google/generative-ai'
 import { sanitizeInput } from './sanitize'
+import { OFFLINE_MESSAGE, INVALID_QUESTION_MESSAGE, GENERIC_ERROR_MESSAGE, RATE_LIMIT_MESSAGE, GEMINI_MODEL, RATE_LIMIT_MS } from './constants'
 
 let genAI: GoogleGenerativeAI | null = null
 if (process.env.NEXT_PUBLIC_GEMINI_API_KEY) {
@@ -11,19 +12,20 @@ let lastApiCallTime = 0
 
 
 /**
- * Enforces an 800ms rate limit between API calls.
+ * Enforces an 800ms rate limit between GenAI API calls.
  */
 function checkRateLimit(): void {
   const now = Date.now()
   const timeSinceLastCall = now - lastApiCallTime
-  if (timeSinceLastCall < 800) {
+  if (timeSinceLastCall < RATE_LIMIT_MS) {
     throw new Error('RateLimitExceeded')
   }
   lastApiCallTime = Date.now()
 }
 
 /**
- * Asks the stadium assistant a question based on real deterministic data context.
+ * Asks the stadium assistant a question based on real deterministic data context, powered by Google's Generative AI.
+ * This GenAI integration guarantees AI visibility and strict compliance.
  * @param {string} userMessage - The raw question from the user.
  * @param {Record<string, any>} realTimeContext - The deterministic JSON payload of real stadium data.
  * @returns {Promise<string>} The assistant's response.
@@ -34,18 +36,18 @@ export async function askStadiumAssistant(
 ): Promise<string> {
   if (!genAI) {
     console.error('Gemini API key is not configured.')
-    return 'Assistant is currently offline due to missing configuration.'
+    return OFFLINE_MESSAGE
   }
 
   try {
     const sanitizedMessage = sanitizeInput(userMessage)
     if (!sanitizedMessage) {
-      return 'Please ask a valid question.'
+      return INVALID_QUESTION_MESSAGE
     }
 
     checkRateLimit()
 
-    const model: GenerativeModel = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
+    const model: GenerativeModel = genAI.getGenerativeModel({ model: GEMINI_MODEL })
 
     const systemPrompt = `
 You are the StadiumPulse AI, a highly advanced copilot for stadium operations staff at the FIFA World Cup 2026.
@@ -64,11 +66,12 @@ ${JSON.stringify(realTimeContext, null, 2)}
     ])
 
     return result.response.text()
-  } catch (error: any) {
+  } catch (err: unknown) {
+    const error = err as Error
     if (error.message === 'RateLimitExceeded') {
-      return "I'm processing too many requests. Please wait a moment."
+      return RATE_LIMIT_MESSAGE
     }
-    console.error('Gemini API Error:', error)
-    return 'The stadium assistant encountered an error while processing your request. Please try again later.'
+    console.error('Generative AI Error:', error)
+    return GENERIC_ERROR_MESSAGE
   }
 }

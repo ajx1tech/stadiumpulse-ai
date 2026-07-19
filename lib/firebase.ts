@@ -1,6 +1,6 @@
 import { initializeApp, getApps, getApp } from 'firebase/app'
 import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, limit } from 'firebase/firestore'
-import { CrowdSnapshot, Incident } from './types'
+import { CrowdManagementSnapshot, Incident } from './types'
 
 /**
  * Recommended Firestore Security Rules:
@@ -35,9 +35,9 @@ export const db = getFirestore(app)
 
 /**
  * Pushes a new crowd snapshot to Firestore telemetry collection.
- * @param {CrowdSnapshot} snapshot - The crowd density data.
+ * @param {CrowdManagementSnapshot} snapshot - The crowd density data.
  */
-export async function pushCrowdSnapshot(snapshot: CrowdSnapshot): Promise<void> {
+export async function pushCrowdSnapshot(snapshot: CrowdManagementSnapshot): Promise<void> {
   try {
     await addDoc(collection(db, 'telemetry'), snapshot)
   } catch (error) {
@@ -47,14 +47,14 @@ export async function pushCrowdSnapshot(snapshot: CrowdSnapshot): Promise<void> 
 
 /**
  * Subscribes to live crowd telemetry data in real-time.
- * @param {(snapshots: CrowdSnapshot[]) => void} callback - Fired when data changes.
+ * @param {(snapshots: CrowdManagementSnapshot[]) => void} callback - Fired when data changes.
  * @returns {() => void} Unsubscribe function.
  */
-export function subscribeToLiveTelemetry(callback: (snapshots: CrowdSnapshot[]) => void): () => void {
+export function subscribeToLiveTelemetry(callback: (snapshots: CrowdManagementSnapshot[]) => void): () => void {
   try {
     const q = query(collection(db, 'telemetry'), orderBy('timestamp', 'desc'), limit(50))
     return onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map(doc => doc.data() as CrowdSnapshot)
+      const data = snapshot.docs.map(doc => doc.data() as CrowdManagementSnapshot)
       callback(data)
     }, (error) => {
       console.error('Live telemetry subscription error', error)

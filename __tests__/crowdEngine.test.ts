@@ -1,4 +1,4 @@
-import { simulateCrowdBuildup, calculateGateOverloadRisk, getOverloadCategory, rankGatesByRisk } from '../lib/crowdEngine'
+import { simulateCrowdBuildup, calculateGateOverloadRisk, getOverloadCategory, rankGatesByRisk, prioritizeIncidents } from '../lib/crowdEngine'
 import { GateStatus } from '../lib/types'
 
 describe('Crowd Engine', () => {
@@ -59,6 +59,16 @@ describe('Crowd Engine', () => {
       expect(sorted[0].gateId).toBe('g2')
       expect(sorted[1].gateId).toBe('g3')
       expect(sorted[2].gateId).toBe('g1')
+    })
+
+    it('should return empty array if given empty array', () => {
+      expect(rankGatesByRisk([])).toEqual([])
+    })
+  })
+
+  describe('prioritizeIncidents', () => {
+    it('should return empty array if no incidents', () => {
+      expect(prioritizeIncidents([], [])).toEqual([])
     })
   })
 })

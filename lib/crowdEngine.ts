@@ -1,4 +1,4 @@
-import { GateStatus, Incident, CrowdSnapshot } from './types'
+import { GateStatus, Incident, CrowdManagementSnapshot } from './types'
 
 /**
  * Simulates crowd buildup using a deterministic logistic function.
@@ -57,10 +57,10 @@ export function rankGatesByRisk(gates: GateStatus[]): GateStatus[] {
  * Prioritizes a list of incidents by severity and the density of the crowd in the incident zone.
  * Incidents in highly dense zones or with higher intrinsic severity are ranked higher.
  * @param {Incident[]} incidents - The list of active incidents.
- * @param {CrowdSnapshot[]} crowdSnapshots - Snapshots of crowd density across zones.
+ * @param {CrowdManagementSnapshot[]} crowdSnapshots - Snapshots of crowd density across zones.
  * @returns {Incident[]} A new array of incidents sorted by priority.
  */
-export function prioritizeIncidents(incidents: Incident[], crowdSnapshots: CrowdSnapshot[]): Incident[] {
+export function prioritizeIncidents(incidents: Incident[], crowdSnapshots: CrowdManagementSnapshot[]): Incident[] {
   const getDensity = (zoneId: string) => {
     const snap = crowdSnapshots.find(s => s.zoneId === zoneId);
     return snap ? snap.densityPercent : 0;

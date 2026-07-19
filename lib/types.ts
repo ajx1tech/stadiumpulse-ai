@@ -15,7 +15,7 @@ export interface StadiumEdge {
   crowdFactor: number
 }
 
-export interface CrowdSnapshot {
+export interface CrowdManagementSnapshot {
   zoneId: string
   densityPercent: number
   timestamp: number

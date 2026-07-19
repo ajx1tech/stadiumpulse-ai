@@ -1,10 +1,11 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { subscribeToIncidents } from '@/lib/firebase'
 import { Incident } from '@/lib/types'
 import FanAIChat from '@/components/fan/FanAIChat'
 
+/** Renders the staff alerts panel for managing critical incidents and sustainability. */
 export default function StaffAlertsPanel() {
   const [incidents, setIncidents] = useState<Incident[]>([])
 

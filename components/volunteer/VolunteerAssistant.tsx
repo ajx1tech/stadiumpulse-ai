@@ -1,11 +1,12 @@
 'use client'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import FanAIChat from '@/components/fan/FanAIChat'
 import { generateVolunteerPhrasebook } from '@/lib/geminiOperations'
 import { reportIncident } from '@/lib/firebase'
 import { Incident } from '@/lib/types'
 
+/** Renders the volunteer assistant utilizing GenAI for scenario translations. */
 export default function VolunteerAssistant() {
   const [scenario, setScenario] = useState('')
   const [language, setLanguage] = useState('es')

@@ -1,11 +1,12 @@
 'use client'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 interface StadiumMapViewProps {
   telemetryData: Record<string, number>
 }
 
+/** Renders the fan-facing interactive map with crowd density overlays. */
 export default function StadiumMapView({ telemetryData }: StadiumMapViewProps) {
   const [wheelchairAccess, setWheelchairAccess] = useState(false)
 

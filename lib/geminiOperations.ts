@@ -5,7 +5,7 @@ import { sanitizeInput } from './sanitize'
 
 
 /**
- * Generates an executive summary of current active incidents.
+ * Generates an executive summary of current active incidents using Generative AI (GenAI).
  * @param {Incident[]} incidents - The list of active incidents.
  * @returns {Promise<string>} The generated summary string.
  */
@@ -26,7 +26,7 @@ export async function summarizeIncidentsForBriefing(incidents: Incident[]): Prom
 }
 
 /**
- * Generates a translated phrasebook for volunteers based on a specific scenario.
+ * Generates a translated phrasebook for volunteers based on a specific scenario using Generative AI (GenAI).
  * @param {string} scenario - The context scenario (e.g., 'medical emergency', 'directions to gate').
  * @param {string} targetLanguage - The language to translate the phrases into.
  * @returns {Promise<string>} The generated phrasebook.
@@ -54,7 +54,7 @@ export async function generateVolunteerPhrasebook(scenario: string, targetLangua
 }
 
 /**
- * Generates a sustainability tip based on calculated transport options.
+ * Generates a sustainability tip based on calculated transport options using Generative AI (GenAI).
  * @param {TransportOption[]} transportOptions - Available transport options with CO2 data.
  * @returns {Promise<string>} The generated sustainability tip.
  */

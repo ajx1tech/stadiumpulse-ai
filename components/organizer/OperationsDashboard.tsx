@@ -1,13 +1,14 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { subscribeToLiveTelemetry, subscribeToIncidents } from '@/lib/firebase'
 import { summarizeIncidentsForBriefing } from '@/lib/geminiOperations'
-import { CrowdSnapshot, Incident } from '@/lib/types'
+import { CrowdManagementSnapshot, Incident } from '@/lib/types'
 
+/** Renders the operations organizer dashboard for real-time telemetry and AI briefings. */
 export default function OperationsDashboard() {
-  const [telemetry, setTelemetry] = useState<CrowdSnapshot[]>([])
+  const [telemetry, setTelemetry] = useState<CrowdManagementSnapshot[]>([])
   const [incidents, setIncidents] = useState<Incident[]>([])
   const [briefing, setBriefing] = useState<string>('')
   const [isGenerating, setIsGenerating] = useState(false)

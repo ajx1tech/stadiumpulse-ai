@@ -1,9 +1,10 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 export type Persona = 'fan' | 'organizer' | 'volunteer' | 'staff'
 
+/** Renders the persona selection screen allowing users to pick their role. */
 export default function PersonaSelector({ onSelect }: { onSelect: (persona: Persona, language: string) => void }) {
   const [selectedPersona, setSelectedPersona] = useState<Persona | null>(null)
   const [language, setLanguage] = useState<string>('en')

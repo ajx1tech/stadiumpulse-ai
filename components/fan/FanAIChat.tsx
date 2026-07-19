@@ -1,14 +1,10 @@
 'use client'
 
-import React, { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import DOMPurify from 'dompurify'
 import { askStadiumAssistant } from '@/lib/geminiService'
-
-interface Message {
-  id: string
-  role: 'user' | 'assistant'
-  content: string
-}
+import ChatMessageBubble, { Message } from './ChatMessageBubble'
+import { AI_WELCOME_MESSAGE, AI_ERROR_MESSAGE } from '@/lib/constants'
 
 interface ISpeechRecognitionEvent {
   results: { [index: number]: { [index: number]: { transcript: string } } }
@@ -33,9 +29,10 @@ declare global {
 }
 
 
+/** Renders the Fan AI Chat assistant interface. */
 export default function FanAIChat() {
   const [messages, setMessages] = useState<Message[]>([
-    { id: '1', role: 'assistant', content: 'Welcome to StadiumPulse! How can I help you today?' }
+    { id: '1', role: 'assistant', content: AI_WELCOME_MESSAGE }
   ])
   const [input, setInput] = useState('')
   const [isTyping, setIsTyping] = useState(false)
@@ -71,7 +68,7 @@ export default function FanAIChat() {
       setMessages(prev => [...prev, assistantMsg])
     } catch (error) {
       console.error(error)
-      setMessages(prev => [...prev, { id: Date.now().toString(), role: 'assistant', content: 'Sorry, I am having trouble connecting right now.' }])
+      setMessages(prev => [...prev, { id: Date.now().toString(), role: 'assistant', content: AI_ERROR_MESSAGE }])
     } finally {
       setIsTyping(false)
     }
@@ -126,21 +123,7 @@ export default function FanAIChat() {
       
       <div className="flex-1 overflow-y-auto p-4 space-y-4" role="log" aria-live="polite">
         {messages.map(msg => (
-          <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div 
-              className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                msg.role === 'user' 
-                  ? 'bg-emerald-600 text-white rounded-tr-none' 
-                  : 'bg-slate-700 text-slate-100 rounded-tl-none'
-              }`}
-            >
-              {msg.role === 'assistant' ? (
-                <div dangerouslySetInnerHTML={{ __html: msg.content }} />
-              ) : (
-                <p>{msg.content}</p>
-              )}
-            </div>
-          </div>
+          <ChatMessageBubble key={msg.id} msg={msg} />
         ))}
         {isTyping && (
           <div className="flex justify-start">

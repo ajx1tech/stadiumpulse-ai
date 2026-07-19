@@ -1,10 +1,11 @@
 'use client'
 
-import React, { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { compareTransportOptions } from '@/lib/transportEngine'
 import { generateSustainabilityTip } from '@/lib/geminiOperations'
 
-export default function TransportPanel() {
+/** Renders the fan-facing sustainable transport panel displaying eco-friendly travel options. */
+export default function SustainableTransportPanel() {
   const [distanceKm, setDistanceKm] = useState<number>(5)
   const [tip, setTip] = useState<string>('Loading sustainability insight...')
 

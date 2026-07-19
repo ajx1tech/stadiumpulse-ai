@@ -15,7 +15,7 @@ This project directly addresses the core pillars of the hackathon challenge:
 - **Crowd Management (Bottleneck Prediction)**: Addressed by `crowdEngine.ts` and the `OperationsDashboard`. The system uses logistic regression to predict fan buildup and assigns deterministic risk scores to gates.
 - **Real-Time Decision Support**: The `EmergencySOSButton` allows fans to trigger alerts, instantly propagating via live Firestore listeners to the `StaffAlertsPanel`.
 - **Accessibility (Inclusivity)**: Integrated deeply at the core logic level. Pathfinding includes an exclusive "wheelchair accessible" toggle that reroutes avoiding stairs. UI is built to WCAG 2.1 AA standards.
-- **Transportation Options**: The `TransportPanel` ranks local transit modalities dynamically based on distance.
+- **Transportation Options**: The `SustainableTransportPanel` ranks local transit modalities dynamically based on distance.
 - **Sustainability (Green Initiatives)**: Transport options are ranked by real-time CO2 emissions math, and Gemini generates contextual sustainability tips.
 - **Multilingual Assistance**: The `VolunteerAssistant` leverages Gemini to dynamically generate localized phrasebooks in 7 languages for scenario-specific fan aid.
 - **Operational Intelligence**: Staff dashboards feature a Gemini-powered "AI Briefing Generator" that reads the live deterministic incident feed and produces an executive summary for immediate action.
