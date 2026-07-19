@@ -1,7 +1,14 @@
 export interface StadiumNode {
   id: string
   name: string
-  type: 'gate' | 'concourse' | 'section' | 'medical' | 'restroom' | 'concession' | 'exit'
+  type:
+    | 'gate'
+    | 'concourse'
+    | 'section'
+    | 'medical'
+    | 'restroom'
+    | 'concession'
+    | 'exit'
   x: number
   y: number
   wheelchairAccessible: boolean

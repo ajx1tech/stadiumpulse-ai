@@ -1,18 +1,14 @@
-const CACHE_NAME = 'stadiumpulse-v1';
-const STATIC_ASSETS = [
-  '/',
-  '/favicon.ico',
-  '/manifest.json'
-];
+const CACHE_NAME = 'stadiumpulse-v1'
+const STATIC_ASSETS = ['/', '/favicon.ico', '/manifest.json']
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(STATIC_ASSETS);
+      return cache.addAll(STATIC_ASSETS)
     })
-  );
-  self.skipWaiting();
-});
+  )
+  self.skipWaiting()
+})
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
@@ -21,33 +17,40 @@ self.addEventListener('activate', (event) => {
         cacheNames
           .filter((name) => name !== CACHE_NAME)
           .map((name) => caches.delete(name))
-      );
+      )
     })
-  );
-  self.clients.claim();
-});
+  )
+  self.clients.claim()
+})
 
 self.addEventListener('fetch', (event) => {
-  const url = new URL(event.request.url);
+  const url = new URL(event.request.url)
 
   // Network-first for API calls (Firebase / Gemini)
-  if (url.origin.includes('firebaseio.com') || url.origin.includes('googleapis.com')) {
+  if (
+    url.origin.includes('firebaseio.com') ||
+    url.origin.includes('googleapis.com')
+  ) {
     event.respondWith(
-      fetch(event.request)
-        .catch(() => {
-          return new Response(JSON.stringify({ error: "Offline mode: Real-time data unavailable." }), {
-            headers: { 'Content-Type': 'application/json' }
-          });
-        })
-    );
-    return;
+      fetch(event.request).catch(() => {
+        return new Response(
+          JSON.stringify({
+            error: 'Offline mode: Real-time data unavailable.',
+          }),
+          {
+            headers: { 'Content-Type': 'application/json' },
+          }
+        )
+      })
+    )
+    return
   }
 
   // Cache-first for static assets and general navigation
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
-        return cachedResponse;
+        return cachedResponse
       }
       return fetch(event.request).catch(() => {
         // Offline banner fallback for document requests
@@ -66,10 +69,10 @@ self.addEventListener('fetch', (event) => {
                  <div class="banner">⚠️ You are currently offline. Please check your connection.</div>
                </body>
              </html>`,
-             { headers: { 'Content-Type': 'text/html' } }
-          );
+            { headers: { 'Content-Type': 'text/html' } }
+          )
         }
-      });
+      })
     })
-  );
-});
+  )
+})

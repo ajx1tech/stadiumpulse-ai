@@ -6,8 +6,14 @@ interface StadiumMapViewProps {
   telemetryData: Record<string, number>
 }
 
-/** Renders the fan-facing interactive map with crowd density overlays. */
-export default function StadiumMapView({ telemetryData }: StadiumMapViewProps) {
+/**
+ * Renders the fan-facing interactive map with crowd density overlays.
+ * @param {StadiumMapViewProps} props - The component props containing telemetry data.
+ * @returns {import("react").JSX.Element} The rendered component.
+ */
+export default function StadiumMapView({
+  telemetryData,
+}: StadiumMapViewProps): import('react').JSX.Element {
   const [wheelchairAccess, setWheelchairAccess] = useState(false)
 
   // Example SVG nodes for the stadium map
@@ -16,7 +22,7 @@ export default function StadiumMapView({ telemetryData }: StadiumMapViewProps) {
     { id: 'gate-b', x: 80, y: 20, label: 'Gate B' },
     { id: 'conc-1', x: 50, y: 50, label: 'Concourse' },
     { id: 'sec-101', x: 30, y: 80, label: 'Sec 101' },
-    { id: 'sec-102', x: 70, y: 80, label: 'Sec 102' }
+    { id: 'sec-102', x: 70, y: 80, label: 'Sec 102' },
   ]
 
   const getDensityColor = (nodeId: string) => {
@@ -31,7 +37,10 @@ export default function StadiumMapView({ telemetryData }: StadiumMapViewProps) {
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold text-white">Live Stadium Map</h2>
         <div className="flex items-center space-x-2">
-          <label htmlFor="wheelchair-toggle" className="text-sm font-medium text-slate-300 cursor-pointer">
+          <label
+            htmlFor="wheelchair-toggle"
+            className="text-sm font-medium text-slate-300 cursor-pointer"
+          >
             Wheelchair Accessible Routes
           </label>
           <button
@@ -43,45 +52,78 @@ export default function StadiumMapView({ telemetryData }: StadiumMapViewProps) {
               wheelchairAccess ? 'bg-emerald-500' : 'bg-slate-600'
             }`}
           >
-            <span 
+            <span
               className={`block w-4 h-4 bg-white rounded-full transition-transform ${
                 wheelchairAccess ? 'translate-x-7' : 'translate-x-1'
-              }`} 
+              }`}
             />
           </button>
         </div>
       </div>
 
-      <div 
+      <div
         className="w-full aspect-video bg-slate-900 rounded-lg relative overflow-hidden flex items-center justify-center border border-slate-700"
         role="img"
         aria-label="Interactive map of the stadium showing real-time crowd density at various locations."
       >
-        <svg viewBox="0 0 100 100" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
+        <svg
+          viewBox="0 0 100 100"
+          className="w-full h-full"
+          preserveAspectRatio="xMidYMid meet"
+        >
           {/* Edges - simplistic paths */}
-          <line x1="20" y1="20" x2="50" y2="50" stroke="#334155" strokeWidth="1.5" />
-          <line x1="80" y1="20" x2="50" y2="50" stroke="#334155" strokeWidth="1.5" strokeDasharray={wheelchairAccess ? "2,2" : ""} />
-          <line x1="50" y1="50" x2="30" y2="80" stroke="#334155" strokeWidth="1.5" />
-          <line x1="50" y1="50" x2="70" y2="80" stroke="#334155" strokeWidth="1.5" />
+          <line
+            x1="20"
+            y1="20"
+            x2="50"
+            y2="50"
+            stroke="#334155"
+            strokeWidth="1.5"
+          />
+          <line
+            x1="80"
+            y1="20"
+            x2="50"
+            y2="50"
+            stroke="#334155"
+            strokeWidth="1.5"
+            strokeDasharray={wheelchairAccess ? '2,2' : ''}
+          />
+          <line
+            x1="50"
+            y1="50"
+            x2="30"
+            y2="80"
+            stroke="#334155"
+            strokeWidth="1.5"
+          />
+          <line
+            x1="50"
+            y1="50"
+            x2="70"
+            y2="80"
+            stroke="#334155"
+            strokeWidth="1.5"
+          />
 
           {/* Nodes */}
-          {nodes.map(node => (
+          {nodes.map((node) => (
             <g key={node.id} className="transition-all duration-300">
-              <circle 
-                cx={node.x} 
-                cy={node.y} 
-                r="4" 
+              <circle
+                cx={node.x}
+                cy={node.y}
+                r="4"
                 fill={getDensityColor(node.id)}
                 className="hover:r-5 transition-all focus:outline-none"
                 tabIndex={0}
                 role="button"
                 aria-label={`${node.label} location. Crowd density is ${telemetryData[node.id] || 0}%.`}
               />
-              <text 
-                x={node.x} 
-                y={node.y + 8} 
-                fontSize="4" 
-                fill="#cbd5e1" 
+              <text
+                x={node.x}
+                y={node.y + 8}
+                fontSize="4"
+                fill="#cbd5e1"
                 textAnchor="middle"
                 className="pointer-events-none font-medium"
               >
@@ -94,8 +136,10 @@ export default function StadiumMapView({ telemetryData }: StadiumMapViewProps) {
         {/* Fallback Screen Reader Text */}
         <div className="sr-only">
           Stadium location status:
-          {nodes.map(node => (
-            <p key={`sr-${node.id}`}>{node.label}: Crowd density {telemetryData[node.id] || 0}%</p>
+          {nodes.map((node) => (
+            <p key={`sr-${node.id}`}>
+              {node.label}: Crowd density {telemetryData[node.id] || 0}%
+            </p>
           ))}
         </div>
       </div>

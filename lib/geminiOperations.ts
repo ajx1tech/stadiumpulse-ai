@@ -2,14 +2,14 @@ import { askStadiumAssistant } from './geminiService'
 import { Incident, TransportOption } from './types'
 import { sanitizeInput } from './sanitize'
 
-
-
 /**
  * Generates an executive summary of current active incidents using Generative AI (GenAI).
  * @param {Incident[]} incidents - The list of active incidents.
  * @returns {Promise<string>} The generated summary string.
  */
-export async function summarizeIncidentsForBriefing(incidents: Incident[]): Promise<string> {
+export async function summarizeIncidentsForBriefing(
+  incidents: Incident[]
+): Promise<string> {
   if (!incidents || incidents.length === 0) {
     return 'No active incidents to report.'
   }
@@ -31,7 +31,10 @@ export async function summarizeIncidentsForBriefing(incidents: Incident[]): Prom
  * @param {string} targetLanguage - The language to translate the phrases into.
  * @returns {Promise<string>} The generated phrasebook.
  */
-export async function generateVolunteerPhrasebook(scenario: string, targetLanguage: string): Promise<string> {
+export async function generateVolunteerPhrasebook(
+  scenario: string,
+  targetLanguage: string
+): Promise<string> {
   const sanitizedScenario = sanitizeInput(scenario)
   const sanitizedLanguage = sanitizeInput(targetLanguage)
 
@@ -43,7 +46,7 @@ export async function generateVolunteerPhrasebook(scenario: string, targetLangua
     const prompt = `Generate a short, useful phrasebook for a stadium volunteer dealing with the following scenario: "${sanitizedScenario}". Provide 5 key phrases in English and their precise translation in ${sanitizedLanguage}.`
     const context = {
       scenario: sanitizedScenario,
-      targetLanguage: sanitizedLanguage
+      targetLanguage: sanitizedLanguage,
     }
     const phrasebook = await askStadiumAssistant(prompt, context)
     return phrasebook
@@ -58,7 +61,9 @@ export async function generateVolunteerPhrasebook(scenario: string, targetLangua
  * @param {TransportOption[]} transportOptions - Available transport options with CO2 data.
  * @returns {Promise<string>} The generated sustainability tip.
  */
-export async function generateSustainabilityTip(transportOptions: TransportOption[]): Promise<string> {
+export async function generateSustainabilityTip(
+  transportOptions: TransportOption[]
+): Promise<string> {
   if (!transportOptions || transportOptions.length === 0) {
     return 'Consider using public transit to reduce your carbon footprint.'
   }

@@ -14,16 +14,16 @@ describe('Pathfinding Engine', () => {
   it('should successfully route wheelchair users avoiding stairs', () => {
     // We know from stadiumGraph that gate-b to conc-1 has stairs
     const routeAccessible = findShortestRoute('gate-b', 'sec-102', true)
-    
+
     // Gate B to Sec 102 accessible path might not exist or might take a longer route
     if (routeAccessible) {
       expect(routeAccessible.isWheelchairAccessible).toBe(true)
-      
+
       // Ensure no edges in the accessible path have stairs
       for (let i = 0; i < routeAccessible.path.length - 1; i++) {
         const from = routeAccessible.path[i]
-        const to = routeAccessible.path[i+1]
-        const edge = STADIUM_EDGES.find(e => e.from === from && e.to === to)
+        const to = routeAccessible.path[i + 1]
+        const edge = STADIUM_EDGES.find((e) => e.from === from && e.to === to)
         expect(edge?.hasStairs).toBe(false)
       }
     } else {

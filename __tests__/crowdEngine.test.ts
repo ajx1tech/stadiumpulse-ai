@@ -1,4 +1,10 @@
-import { simulateCrowdBuildup, calculateGateOverloadRisk, getOverloadCategory, rankGatesByRisk, prioritizeIncidents } from '../lib/crowdEngine'
+import {
+  simulateCrowdBuildup,
+  calculateGateOverloadRisk,
+  getOverloadCategory,
+  rankGatesByRisk,
+  prioritizeIncidents,
+} from '../lib/crowdEngine'
 import { GateStatus } from '../lib/types'
 
 describe('Crowd Engine', () => {
@@ -17,7 +23,7 @@ describe('Crowd Engine', () => {
       const at120 = simulateCrowdBuildup(120, 50000)
       const at60 = simulateCrowdBuildup(60, 50000)
       const at30 = simulateCrowdBuildup(30, 50000)
-      
+
       expect(at60).toBeGreaterThan(at120)
       expect(at30).toBeGreaterThan(at60)
     })
@@ -50,11 +56,26 @@ describe('Crowd Engine', () => {
   describe('rankGatesByRisk', () => {
     it('should sort gates descending by risk score', () => {
       const gates: GateStatus[] = [
-        { gateId: 'g1', inflowRatePerMin: 10, capacityPerMin: 100, overloadRiskScore: 0.1 },
-        { gateId: 'g2', inflowRatePerMin: 95, capacityPerMin: 100, overloadRiskScore: 0.95 },
-        { gateId: 'g3', inflowRatePerMin: 50, capacityPerMin: 100, overloadRiskScore: 0.5 },
+        {
+          gateId: 'g1',
+          inflowRatePerMin: 10,
+          capacityPerMin: 100,
+          overloadRiskScore: 0.1,
+        },
+        {
+          gateId: 'g2',
+          inflowRatePerMin: 95,
+          capacityPerMin: 100,
+          overloadRiskScore: 0.95,
+        },
+        {
+          gateId: 'g3',
+          inflowRatePerMin: 50,
+          capacityPerMin: 100,
+          overloadRiskScore: 0.5,
+        },
       ]
-      
+
       const sorted = rankGatesByRisk(gates)
       expect(sorted[0].gateId).toBe('g2')
       expect(sorted[1].gateId).toBe('g3')

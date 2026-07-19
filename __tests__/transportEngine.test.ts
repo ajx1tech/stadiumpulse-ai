@@ -8,7 +8,7 @@ describe('Transport Engine', () => {
 
   it('should include walk and bike for short distances (<3km)', () => {
     const opts = compareTransportOptions(2)
-    const modes = opts.map(o => o.mode)
+    const modes = opts.map((o) => o.mode)
     expect(modes).toContain('walk')
     expect(modes).toContain('bike')
     expect(modes).toContain('metro') // Metro is always available
@@ -16,13 +16,13 @@ describe('Transport Engine', () => {
 
   it('should exclude walk for long distances (>=3km)', () => {
     const opts = compareTransportOptions(5)
-    const modes = opts.map(o => o.mode)
+    const modes = opts.map((o) => o.mode)
     expect(modes).not.toContain('walk')
   })
 
   it('should exclude bike for very long distances (>=15km)', () => {
     const opts = compareTransportOptions(20)
-    const modes = opts.map(o => o.mode)
+    const modes = opts.map((o) => o.mode)
     expect(modes).not.toContain('bike')
     expect(modes).toContain('metro')
     expect(modes).toContain('rideshare')
@@ -30,9 +30,9 @@ describe('Transport Engine', () => {
 
   it('should properly calculate CO2 emissions relative to rideshare', () => {
     const opts = compareTransportOptions(10)
-    const rideshare = opts.find(o => o.mode === 'rideshare')
-    const metro = opts.find(o => o.mode === 'metro')
-    const bus = opts.find(o => o.mode === 'bus')
+    const rideshare = opts.find((o) => o.mode === 'rideshare')
+    const metro = opts.find((o) => o.mode === 'metro')
+    const bus = opts.find((o) => o.mode === 'bus')
 
     expect(rideshare).toBeDefined()
     expect(metro).toBeDefined()
@@ -45,7 +45,7 @@ describe('Transport Engine', () => {
 
   it('should ensure non-negative invariants', () => {
     const opts = compareTransportOptions(10)
-    opts.forEach(opt => {
+    opts.forEach((opt) => {
       expect(opt.co2Kg).toBeGreaterThanOrEqual(0)
       expect(opt.estimatedMinutes).toBeGreaterThan(0)
       expect(opt.costEstimate).toBeGreaterThanOrEqual(0)

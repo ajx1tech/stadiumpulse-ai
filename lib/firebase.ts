@@ -1,10 +1,18 @@
 import { initializeApp, getApps, getApp } from 'firebase/app'
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, limit } from 'firebase/firestore'
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  onSnapshot,
+  query,
+  orderBy,
+  limit,
+} from 'firebase/firestore'
 import { CrowdManagementSnapshot, Incident } from './types'
 
 /**
  * Recommended Firestore Security Rules:
- * 
+ *
  * rules_version = '2';
  * service cloud.firestore {
  *   match /databases/{database}/documents {
@@ -37,7 +45,9 @@ export const db = getFirestore(app)
  * Pushes a new crowd snapshot to Firestore telemetry collection.
  * @param {CrowdManagementSnapshot} snapshot - The crowd density data.
  */
-export async function pushCrowdSnapshot(snapshot: CrowdManagementSnapshot): Promise<void> {
+export async function pushCrowdSnapshot(
+  snapshot: CrowdManagementSnapshot
+): Promise<void> {
   try {
     await addDoc(collection(db, 'telemetry'), snapshot)
   } catch (error) {
@@ -50,15 +60,27 @@ export async function pushCrowdSnapshot(snapshot: CrowdManagementSnapshot): Prom
  * @param {(snapshots: CrowdManagementSnapshot[]) => void} callback - Fired when data changes.
  * @returns {() => void} Unsubscribe function.
  */
-export function subscribeToLiveTelemetry(callback: (snapshots: CrowdManagementSnapshot[]) => void): () => void {
+export function subscribeToLiveTelemetry(
+  callback: (snapshots: CrowdManagementSnapshot[]) => void
+): () => void {
   try {
-    const q = query(collection(db, 'telemetry'), orderBy('timestamp', 'desc'), limit(50))
-    return onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map(doc => doc.data() as CrowdManagementSnapshot)
-      callback(data)
-    }, (error) => {
-      console.error('Live telemetry subscription error', error)
-    })
+    const q = query(
+      collection(db, 'telemetry'),
+      orderBy('timestamp', 'desc'),
+      limit(50)
+    )
+    return onSnapshot(
+      q,
+      (snapshot) => {
+        const data = snapshot.docs.map(
+          (doc) => doc.data() as CrowdManagementSnapshot
+        )
+        callback(data)
+      },
+      (error) => {
+        console.error('Live telemetry subscription error', error)
+      }
+    )
   } catch (error) {
     console.error('Failed to initialize live telemetry subscription', error)
     return () => {} // Return a no-op unsubscribe function
@@ -82,15 +104,25 @@ export async function reportIncident(incident: Incident): Promise<void> {
  * @param {(incidents: Incident[]) => void} callback - Fired when incidents change.
  * @returns {() => void} Unsubscribe function.
  */
-export function subscribeToIncidents(callback: (incidents: Incident[]) => void): () => void {
+export function subscribeToIncidents(
+  callback: (incidents: Incident[]) => void
+): () => void {
   try {
-    const q = query(collection(db, 'incidents'), orderBy('timestamp', 'desc'), limit(100))
-    return onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map(doc => doc.data() as Incident)
-      callback(data)
-    }, (error) => {
-      console.error('Incident subscription error', error)
-    })
+    const q = query(
+      collection(db, 'incidents'),
+      orderBy('timestamp', 'desc'),
+      limit(100)
+    )
+    return onSnapshot(
+      q,
+      (snapshot) => {
+        const data = snapshot.docs.map((doc) => doc.data() as Incident)
+        callback(data)
+      },
+      (error) => {
+        console.error('Incident subscription error', error)
+      }
+    )
   } catch (error) {
     console.error('Failed to initialize incident subscription', error)
     return () => {} // Return a no-op unsubscribe function

@@ -3,7 +3,7 @@ import { getEdgesFrom, STADIUM_NODES } from './stadiumGraph'
 
 /**
  * Finds the shortest route between two nodes in the stadium using Dijkstra's algorithm.
- * 
+ *
  * Algorithm Explanation:
  * 1. Initialize distances to all nodes as Infinity, except the start node which is 0.
  * 2. Keep track of the unvisited nodes.
@@ -64,15 +64,20 @@ export function findShortestRoute(
       if (requireWheelchairAccess && edge.hasStairs) {
         continue
       }
-      
-      const neighborNode = STADIUM_NODES.find(n => n.id === edge.to)
-      if (requireWheelchairAccess && neighborNode && !neighborNode.wheelchairAccessible) {
+
+      const neighborNode = STADIUM_NODES.find((n) => n.id === edge.to)
+      if (
+        requireWheelchairAccess &&
+        neighborNode &&
+        !neighborNode.wheelchairAccessible
+      ) {
         continue
       }
 
       if (unvisited.has(edge.to)) {
         // Adjust cost based on distance and crowd factor
-        const alt = distances[currNodeId] + (edge.distanceMeters * edge.crowdFactor)
+        const alt =
+          distances[currNodeId] + edge.distanceMeters * edge.crowdFactor
         if (alt < distances[edge.to]) {
           distances[edge.to] = alt
           previous[edge.to] = currNodeId
@@ -105,6 +110,6 @@ export function findShortestRoute(
     path,
     totalDistanceMeters,
     estimatedMinutes,
-    isWheelchairAccessible: requireWheelchairAccess
+    isWheelchairAccessible: requireWheelchairAccess,
   }
 }
